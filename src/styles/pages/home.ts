@@ -45,7 +45,7 @@ export const Product = styled("a", {
     },
 
     span: {
-      fontSize: "$xg",
+      fontSize: "$lg",
       fontWeight: "bold",
       color: "$green300",
     },
