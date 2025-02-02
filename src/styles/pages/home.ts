@@ -8,7 +8,7 @@ marginLeft: 'auto',
 minHeight: 656
 })
 
-export const Product = styled("a", {
+export const Product = styled("div", {
   background: "linear-gradient(180deg, #1ea483 0%, #7465d4 100%)",
   borderRadius: 8,
   cursor: "pointer",
@@ -17,6 +17,7 @@ export const Product = styled("a", {
   alignItems: "center",
   justifyContent: "center",
   overflow: "hidden",
+  gap: 2, 
 
   img: {
     objectFit: "cover",
@@ -42,6 +43,7 @@ export const Product = styled("a", {
 
     strong: {
       fontSize: "$2xl",
+      color: "$gray100",
     },
 
     span: {
