@@ -19,19 +19,28 @@ if (!priceId) {
   const success_url = `${process.env.NEXT_PUBLIC_URL}/success`
   const cancel_url = `${process.env.NEXT_PUBLIC_URL}/`
   
+    // Cria uma sessão de checkout no Stripe
   const checkoutSession = await stripe.checkout.sessions.create({
+    // URL para redirecionar o usuário em caso de sucesso no pagamento
     success_url: success_url,
+    // URL para redirecionar o usuário em caso de cancelamento do pagamento
     cancel_url: cancel_url,
-
+    // Define o modo de pagamento como 'payment'
     mode: 'payment',
+    // Define os itens da linha de pagamento
     line_items: [
       {
+        // ID do preço do produto
         price: priceId,
-        quantity: 1
-      }
+        // Quantidade do produto
+        quantity: 1,
+      },
     ],
-  })
+  });
+  
+  // Retorna uma resposta com status 201 (Created) e a URL da sessão de checkout
   return res.status(201).json({
+    // URL da sessão de checkout criada
     checkoutUrl: checkoutSession.url,
-  })
+  });
 }
