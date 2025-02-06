@@ -16,7 +16,7 @@ if (!priceId) {
   return res.status(400).json({ error: 'PriceId is required' });
 }
 
-  const success_url = `${process.env.NEXT_PUBLIC_URL}/success`
+  const success_url = `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`
   const cancel_url = `${process.env.NEXT_PUBLIC_URL}/`
   
     // Cria uma sessão de checkout no Stripe
