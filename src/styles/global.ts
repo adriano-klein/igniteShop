@@ -1,4 +1,5 @@
 import { globalCss } from "@stitches/react";
+import "@radix-ui/themes/styles.css";
 
 export const globalStyles = globalCss({
   '*': {

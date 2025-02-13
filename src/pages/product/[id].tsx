@@ -5,6 +5,8 @@ import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/p
 import { stripe } from "../../lib/stripe";
 import axios from "axios";
 import { useState } from "react";
+import Head from "next/head";
+import { useShoppingCart } from "use-shopping-cart";
 
 interface ProductProps {
   product: {
@@ -19,6 +21,8 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const [IsCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+  const { addItem } = useShoppingCart();
+  
   
   async function handleBuyProduct() {
     try {
@@ -36,19 +40,36 @@ export default function Product({ product }: ProductProps) {
     }
   }
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} width={520} height={480} alt="" />
-      </ImageContainer>
+    <>
+      <Head>
+        <title> {product.name} | Ignite Shop </title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} width={520} height={480} alt="" />
+        </ImageContainer>
 
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span> {product.price} </span>
-        <p>{product.description}</p>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span> {product.price} </span>
+          <p>{product.description}</p>
 
-        <button disabled={IsCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar agora</button>
-      </ProductDetails>
-    </ProductContainer>
+          <button
+            disabled={IsCreatingCheckoutSession}
+            // onClick={handleBuyProduct}
+            onClick={() => addItem({
+              name: product.name,
+              id: product.id,
+              price: parseFloat(product.price.replace("R$", "").replace(",", ".")),
+              currency: "BRL",
+              image: product.imageUrl,
+            })}
+          >
+            Colocar na sacola
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 
@@ -61,7 +82,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-// Define a função getStaticProps que é usada para buscar dados em tempo de build
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ params }) => {
   // Obtém o ID do produto a partir dos parâmetros da URL
   const productId = params.id;

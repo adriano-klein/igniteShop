@@ -21,18 +21,14 @@ if (!priceId) {
   
     // Cria uma sessão de checkout no Stripe
   const checkoutSession = await stripe.checkout.sessions.create({
-    // URL para redirecionar o usuário em caso de sucesso no pagamento
     success_url: success_url,
-    // URL para redirecionar o usuário em caso de cancelamento do pagamento
     cancel_url: cancel_url,
-    // Define o modo de pagamento como 'payment'
     mode: 'payment',
+    
     // Define os itens da linha de pagamento
     line_items: [
       {
-        // ID do preço do produto
         price: priceId,
-        // Quantidade do produto
         quantity: 1,
       },
     ],

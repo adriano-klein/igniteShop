@@ -17,7 +17,7 @@ export const Product = styled("div", {
   alignItems: "center",
   justifyContent: "center",
   overflow: "hidden",
-  gap: 2, 
+  gap: 2,
 
   img: {
     objectFit: "cover",
@@ -38,18 +38,26 @@ export const Product = styled("div", {
     backgroundColor: "rgba(0,0,0,0.6)",
 
     transform: "translateY(110%)",
-    opacity: 0,
     transition: "all 0.2s ease-in-out",
 
-    strong: {
-      fontSize: "$2xl",
-      color: "$gray100",
-    },
+    div: {
+      display: "flex",
+      flexDirection: "column",
+      lineHeight: 1.5,
 
-    span: {
-      fontSize: "$lg",
-      fontWeight: "bold",
-      color: "$green300",
+      strong: {
+        fontSize: "$2xl",
+        color: "$gray100",
+      },
+
+      span: {
+        fontSize: "$xl",
+        fontWeight: "bold",
+        color: "$green300",
+      },
+    },
+    "&:hover": {
+      backgroundColor: "rgba(0,0,0,0.8)",
     },
   },
 
@@ -60,3 +68,10 @@ export const Product = styled("div", {
     },
   },
 });
+
+export const HandbagContainer = styled("span", {
+  padding: '12px',
+  backgroundColor: "$green300",
+  borderRadius: 4,
+  color: "$gray100",
+})

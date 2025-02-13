@@ -1,7 +1,9 @@
 import Image from "next/image"
-import { HomeContainer, Product } from "../styles/pages/home";
+import Head from "next/head"
+import { HandbagContainer, HomeContainer, Product } from "../styles/pages/home";
 import { useKeenSlider } from 'keen-slider/react'
 import Link from "next/link"
+import { Handbag } from "@phosphor-icons/react";
 
 import 'keen-slider/keen-slider.min.css'
 import {stripe} from "../lib/stripe";
@@ -24,21 +26,35 @@ export default function Home({ products }: ProductProps) {
     },
   });
   return (
+    <>
+    <Head>
+      <title>Home | Ignite Shop</title>
+    </Head>
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map((product) => {
         return (
-          <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+          <Link
+            key={product.id}
+            href={`/product/${product.id}`}
+            prefetch={false}
+          >
             <Product className="keen-slider__slide">
               <Image src={product.imageUrl} width={520} height={480} alt="" />
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <HandbagContainer>
+                  <Handbag size={32} weight='bold'/>
+                </HandbagContainer>
               </footer>
             </Product>
           </Link>
         );
       })}
     </HomeContainer>
+    </>
   );
 }
 
