@@ -21,8 +21,9 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const [IsCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
-  const { addItem } = useShoppingCart();
+  const { addItem, cartDetails } = useShoppingCart();
   
+  console.log('Cart: ',cartDetails)
   
   async function handleBuyProduct() {
     try {

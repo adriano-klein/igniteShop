@@ -3,19 +3,14 @@ import { globalStyles } from "../styles/global"
 import Image from 'next/image'
 
 import { Theme } from "@radix-ui/themes";
-
-import logoImg from '../assets/logo.svg'
 import { Container, Header } from "../styles/pages/app";
-import { Bag } from "@phosphor-icons/react";
-import Link from "next/link";
-import { CartProvider, useShoppingCart } from "use-shopping-cart";
+import { CartProvider } from "use-shopping-cart";
+import { ShopHeader } from "../components/ShopHeader";
 
 
 globalStyles()
 export default function App({ Component, pageProps }: AppProps) {
-  const { cartCount } = useShoppingCart()
   return (
-    <>
       <Theme style={{ background: "var(--gray-a2)" }}>
         <CartProvider
           mode="payment"
@@ -28,18 +23,10 @@ export default function App({ Component, pageProps }: AppProps) {
           shouldPersist={true}
         >
           <Container>
-            <Header>
-              <Image src={logoImg} alt="" />
-              <Link href="/cart">
-                <Bag size={32} weight="bold" />
-                {/* se o cart for maior que 0 mostra o span */}
-                {cartCount > 0 && <span>{cartCount}</span>}
-              </Link>
-            </Header>
+            <ShopHeader />
             <Component {...pageProps} />
           </Container>
         </CartProvider>
       </Theme>
-    </>
   );
 }
