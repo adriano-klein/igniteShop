@@ -1,21 +1,65 @@
 import * as Dialog from "@radix-ui/react-dialog";
-
 import { Bag, X } from "@phosphor-icons/react";
 import { Header } from "../styles/pages/app";
 import Link from "next/link";
 import Image from "next/image";
-
-import logoImg from '../assets/logo.svg'
+import logoImg from '../assets/logo.svg';
 import { useShoppingCart } from "use-shopping-cart";
 import { CloseButton, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
+import { useState } from "react";
+import { stripe } from "../lib/stripe";
 
+export function ShopHeader() {
+  const [IsCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
+  const { cartCount, totalPrice, cartDetails, removeItem } = useShoppingCart();
+  async function handleBuyProduct() {
+    
+    const productList = await stripe.products.list({
+      expand: ["data.default_price"],
+    });
 
+        const cart = Object.values(cartDetails).map(product => {
+        const productData = productList.data.find(p => p.id === product.id);
+        if (!productData) {
+          throw new Error(`Product with id ${product.id} not found in productList`);
+        }
+        return {
+          price: typeof productData.default_price === 'object' ? productData.default_price.id : '', // Verifico se está acessando o ID do preço correto
+          quantity: product.quantity,
+        };
+      });
+      
+    try {
+      //TODO: Implementar a lógica para criar a sessão de checkout com vários produtos
+      const response = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: cart,
+        mode: 'payment',
+        success_url: `${window.location.origin}/success`,
+        cancel_url: `${window.location.origin}/cancel`,
+        shipping_address_collection: {
+          allowed_countries: ['BR'],
+        },
+        billing_address_collection: 'auto',
+        metadata: {
+          products: JSON.stringify(cart),
+        },
+      });
 
-export function ShopHeader(){
-  const { cartCount, totalPrice, cartDetails, removeItem } = useShoppingCart()
+      const checkoutUrl  = response.url;
+      window.location.href = checkoutUrl;
+
+      setIsCreatingCheckoutSession(true);
+
+    } catch (error) {
+      setIsCreatingCheckoutSession(false);
+      alert("Falha ao redirecionar ao checkout");
+    }
+  }
+
   return (
     <Header>
-        <Image src={logoImg} alt="" />
+      <Image src={logoImg} alt="" />
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <Link href="#">
@@ -51,7 +95,6 @@ export function ShopHeader(){
                             style: "currency",
                             currency: "BRL",
                           }).format(item.value)}
-                          )
                         </p>
                       </span>
                       <button onClick={() => removeItem(item.id)}>
@@ -78,10 +121,13 @@ export function ShopHeader(){
                 </p>
               </span>
             </QuantityInfo>
-            <FinishPurchaseButton>Finalizar compra</FinishPurchaseButton>
+            <FinishPurchaseButton onClick={handleBuyProduct}>
+              Finalizar compra
+            </FinishPurchaseButton>
           </StyledDialogContent>
         </Dialog.Portal>
       </Dialog.Root>
     </Header>
   );
 }
+

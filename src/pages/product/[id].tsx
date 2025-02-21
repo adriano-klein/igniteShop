@@ -21,10 +21,8 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const [IsCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
-  const { addItem, cartDetails } = useShoppingCart();
-  
-  console.log('Cart: ',cartDetails)
-  
+  const { addItem } = useShoppingCart();
+
   async function handleBuyProduct() {
     try {
       const response = await axios.post('/api/checkout', {
@@ -58,13 +56,18 @@ export default function Product({ product }: ProductProps) {
           <button
             disabled={IsCreatingCheckoutSession}
             // onClick={handleBuyProduct}
-            onClick={() => addItem({
-              name: product.name,
-              id: product.id,
-              price: parseFloat(product.price.replace("R$", "").replace(",", ".")),
-              currency: "BRL",
-              image: product.imageUrl,
-            })}
+            onClick={() =>
+              addItem({
+                name: product.name,
+                id: product.id,
+                price: parseFloat(
+                  product.price.replace("R$", "").replace(",", ".")
+                ),
+                currency: "BRL",
+                image: product.imageUrl,
+                defaultPriceId: product.defaultPriceId,
+              })
+            }
           >
             Colocar na sacola
           </button>

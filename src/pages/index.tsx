@@ -9,15 +9,16 @@ import 'keen-slider/keen-slider.min.css'
 import {stripe} from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
+import { useShoppingCart } from "use-shopping-cart";
 interface ProductProps {
   products: {
     id: string;
     name: string;
     imageUrl: string;
     price: string;
+    currency: string;
   }[];
 }
-
 export default function Home({ products }: ProductProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -46,7 +47,7 @@ export default function Home({ products }: ProductProps) {
                   <span>{product.price}</span>
                 </div>
                 <HandbagContainer>
-                  <Handbag size={32} weight='bold'/>
+                  <Handbag size={32} weight="bold"/>
                 </HandbagContainer>
               </footer>
             </Product>
@@ -69,6 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
+      sku: product.metadata,
       price: new Intl.NumberFormat('pt-BR',{
         style: 'currency',
         currency: 'BRL',
@@ -82,4 +84,5 @@ export const getStaticProps: GetStaticProps = async () => {
     },
     revalidate: 60 * 60 * 2, // 2 hours
   };
+
 };

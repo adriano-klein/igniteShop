@@ -4,7 +4,7 @@ import { stripe } from "../../lib/stripe"
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { priceId } = req.body;
 
-// Verifica se o método da requisição não é POST
+// Verifica se o método da requisição não é POST e se não for retorna um erro 405 (Method Not Allowed)
 if (req.method !== 'POST') {
   // Retorna um status 405 (Method Not Allowed) e uma mensagem de erro
   return res.status(405).json({ error: 'Method not allowed' });
