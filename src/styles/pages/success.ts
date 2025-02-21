@@ -1,55 +1,51 @@
-import { styled } from "..";
+import {styled} from '..'
 
 export const SuccessContainer = styled('main', {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   justifyContent: 'center',
   margin: '0 auto',
-  height: 656,
+  color: '$gray300',
+  textAlign: 'center',
+  width: '36rem',
+  fontSize: '$md',
 
-  h1: {
-    fontSize: '$2xl',
-    color: '$gray100',
-  },
-
-  p: {
-    fontSize: '$xl',
-    color: '$gray300',
-    maxWidth: 560,
-    textAlign: 'center',
-    marginTop: '2rem',
-    lineHeight: 1.4,
-  },
-
-  a: {
-    marginTop: '5rem',
-    display: 'block',
+  span:{
+    color: '$green300',
     fontSize: '$lg',
-    color: '$green500',
-    textDecoration: 'none',
     fontWeight: 'bold',
+    marginTop: '4rem',
+  },
+  h1: {
+    marginBottom: '1.5rem',
+  },
 
-    '&:hover': {
-      color: '$green300',
-    }
-  }
 })
 
-export const ImageContainer = styled('div', {
-  width: '100%',
-  maxWidth: 130,
-  height: 130,
-  background: 'linear-gradient(90deg, #1ea486 0%, #7465d4 100%)',
-  borderRadius: 8,
-  padding: '0.25rem',
-  marginTop: '4rem',
+export const ProductsContainer = styled("section", {
+  padding: "2rem",
+  margin: "0 auto",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  marginBottom: "2rem",
 
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  section: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "140px",
+    height: "140px",
+    borderRadius: "50%",
+    padding: "1rem",
+    marginLeft: "-2rem",
+    background: "linear-gradient(180deg, #1ea486 0%, #7465d4 100%)",
+    boxShadow: "0px 0px 60px 0px rgba(0, 0, 0, 0.80)",
+  },
 
-  img: {
-    objectFit: 'cover',
-  }
-})
+  Image: {
+    borderRadius: "0.5rem",
+    margin: "0 auto",
+  },
+});
