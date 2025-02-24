@@ -20,6 +20,7 @@ interface ProductProps {
   }[];
 }
 export default function Home({ products }: ProductProps) {
+  
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,

@@ -1,5 +1,6 @@
 import { keyframes, styled } from "@stitches/react";
 import * as Dialog from "@radix-ui/react-dialog";
+import Link from "next/link";
 
 
 /// Define a animação para o diálogo vindo da direita
@@ -7,6 +8,8 @@ const slideInFromRight = keyframes({
   '0%': { transform: 'translateX(100%)' },
   '100%': { transform: 'translateX(0)' },
 });
+
+
 
 export const StyledDialogContent = styled(Dialog.Content, {
   backgroundColor: "$gray800",
@@ -22,10 +25,24 @@ export const StyledDialogContent = styled(Dialog.Content, {
   animation: `${slideInFromRight} 0.5s ease-out`,
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
+
+  h2: {
+    marginBottom: '60%',
+  },
+
+  svg: {
+    margin: '0 auto',
+  }
 });
 
+export const EmptyH4 = styled("h4", {
+  textAlign: "center",
+  marginTop: "1rem",
+});
+
+
 export const ProductsContainer = styled("div", {
+
   
 })
 
@@ -92,12 +109,23 @@ export const ProductFooter = styled("div", {
   display: "flex",
   flexDirection: "column",
   gap: "1rem",
+  width: "100%",
 
   span: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     gap: "0.5rem",
+  },
+
+  'span:last-child': {
+    display: "flex",
+    gap: "1.5rem",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    boxSizing:"content-box",
+    backgroundColor: "$green200",
+    width: "30%",
   },
 
   button: {
@@ -119,8 +147,8 @@ export const ProductFooter = styled("div", {
 export const ImageContainer = styled("div", {
   borderRadius: "8px",
   background: "linear-gradient(180deg, #1EA483 0%, #7465D4 100%)",
-  height: "6.25rem",
-  width: "6.25rem",
+  height: "7.50rem",
+  width: "7.50rem",
 });
 
 export const FinishPurchaseButton = styled("button", {

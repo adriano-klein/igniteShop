@@ -7,6 +7,8 @@ import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
 import { useShoppingCart } from "use-shopping-cart";
+import Skeleton from "react-loading-skeleton";
+import useQuery from "use-query";
 
 interface ProductProps {
   product: {
@@ -44,9 +46,9 @@ export default function Product({ product }: ProductProps) {
         <title> {product.name} | Ignite Shop </title>
       </Head>
       <ProductContainer>
-        <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt="" />
-        </ImageContainer>
+          <ImageContainer>
+            <Image src={product.imageUrl} width={520} height={480} alt="" />
+          </ImageContainer>
 
         <ProductDetails>
           <h1>{product.name}</h1>

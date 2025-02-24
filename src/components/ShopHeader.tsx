@@ -1,19 +1,19 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Bag, X } from "@phosphor-icons/react";
+import { Bag, Minus, Plus, X, ShoppingBag } from "@phosphor-icons/react";
 import { Header } from "../styles/pages/app";
-import Link from "next/link";
 import Image from "next/image";
 import logoImg from '../assets/logo.svg';
 import { useShoppingCart } from "use-shopping-cart";
-import { CloseButton, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
+import { CloseButton, EmptyH4, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
 import { useState } from "react";
 import { stripe } from "../lib/stripe";
+import Link from "next/link";
 
 export function ShopHeader() {
-  const [IsCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-  const { cartCount, totalPrice, cartDetails, removeItem } = useShoppingCart();
+  const [ isCreatingCheckoutSession, setIsCreatingCheckoutSession ] = useState(false);
+  const { cartCount, totalPrice, cartDetails, removeItem, decrementItem, incrementItem, clearCart } = useShoppingCart();
+  
   async function handleBuyProduct() {
-    
     const productList = await stripe.products.list({
       expand: ["data.default_price"],
     });
@@ -30,17 +30,16 @@ export function ShopHeader() {
       });
       
     try {
-      //TODO: Implementar a lógica para criar a sessão de checkout com vários produtos
       const response = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
+        payment_method_types: ["card"],
         line_items: cart,
-        mode: 'payment',
-        success_url: `${window.location.origin}/success`,
+        mode: "payment",
+        success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${window.location.origin}/cancel`,
         shipping_address_collection: {
-          allowed_countries: ['BR'],
+          allowed_countries: ["BR"],
         },
-        billing_address_collection: 'auto',
+        billing_address_collection: "auto",
         metadata: {
           products: JSON.stringify(cart),
         },
@@ -50,6 +49,7 @@ export function ShopHeader() {
       window.location.href = checkoutUrl;
 
       setIsCreatingCheckoutSession(true);
+      clearCart();
 
     } catch (error) {
       setIsCreatingCheckoutSession(false);
@@ -59,7 +59,9 @@ export function ShopHeader() {
 
   return (
     <Header>
-      <Image src={logoImg} alt="" />
+      <Link href="/">
+        <Image src={logoImg} alt="" />
+      </Link>
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <Link href="#">
@@ -75,55 +77,70 @@ export function ShopHeader() {
             </CloseButton>
             <StyledDialogTitle>Sacola de compras</StyledDialogTitle>
 
-            <ProductsContainer>
-              {Object.values(cartDetails).map((item, index) => {
-                return (
-                  <ProductContainer key={index}>
-                    <ImageContainer>
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={100}
-                        height={100}
-                      />
-                    </ImageContainer>
-                    <ProductFooter>
-                      <span>
-                        <h2>{item.name}</h2>
-                        <p>
-                          {new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL",
-                          }).format(item.value)}
-                        </p>
-                      </span>
-                      <button onClick={() => removeItem(item.id)}>
-                        Remover
-                      </button>
-                    </ProductFooter>
-                  </ProductContainer>
-                );
-              })}
-            </ProductsContainer>
-            <QuantityInfo>
-              <span>
-                <p>Quantidade</p>
-                <p>{`${cartCount} itens`}</p>
-              </span>
-              <span>
-                <p>Valor total</p>
-                <p>
-                  {" "}
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(totalPrice)}{" "}
-                </p>
-              </span>
-            </QuantityInfo>
-            <FinishPurchaseButton onClick={handleBuyProduct}>
-              Finalizar compra
-            </FinishPurchaseButton>
+            {cartCount > 0 ? (
+              <>
+                <ProductsContainer>
+                  {Object.values(cartDetails).map((item, index) => {
+                    return (
+                      <ProductContainer key={index}>
+                        <ImageContainer>
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                          />
+                        </ImageContainer>
+                        <ProductFooter>
+                          <span>
+                            <h2>{item.name}</h2>
+                            <p>
+                              {new Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(item.value)}
+                            </p>
+
+                            <span>
+                              <Plus onClick={() => incrementItem(item.id)} />
+                              <p> {item.quantity} </p>
+                              <Minus onClick={() => decrementItem(item.id)} />
+                            </span>
+                          </span>
+                          <button onClick={() => removeItem(item.id)}>
+                            Remover
+                          </button>
+                        </ProductFooter>
+                      </ProductContainer>
+                    );
+                  })}
+                </ProductsContainer>
+                <QuantityInfo>
+                  <span>
+                    <p>Quantidade</p>
+                    <p>{`${cartCount} itens`}</p>
+                  </span>
+                  <span>
+                    <p>Valor total</p>
+                    <p>
+                      {" "}
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(totalPrice)}{" "}
+                    </p>
+                  </span>
+                </QuantityInfo>
+                <FinishPurchaseButton onClick={handleBuyProduct}>
+                  Finalizar compra
+                </FinishPurchaseButton>
+              </>
+            ) : (
+              <>
+              <ShoppingBag size={48} />
+              <EmptyH4>Sua sacola está vazia</EmptyH4>
+              </>
+            )}
           </StyledDialogContent>
         </Dialog.Portal>
       </Dialog.Root>

@@ -1,26 +1,27 @@
 import {styled} from '..'
 
-export const SuccessContainer = styled('main', {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: '0 auto',
-  color: '$gray300',
-  textAlign: 'center',
-  width: '36rem',
-  fontSize: '$md',
+export const SuccessContainer = styled("main", {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  margin: "0 auto",
+  color: "$gray300",
+  textAlign: "center",
+  width: "36rem",
+  fontSize: "$md",
 
-  span:{
-    color: '$green300',
-    fontSize: '$lg',
-    fontWeight: 'bold',
-    marginTop: '4rem',
+  a: {
+    color: "$green300",
+    fontSize: "$lg",
+    fontWeight: "bold",
+    marginTop: "4rem",
+    textDecoration: "none",
   },
+
   h1: {
-    marginBottom: '1.5rem',
+    marginBottom: "1.5rem",
   },
-
-})
+});
 
 export const ProductsContainer = styled("section", {
   padding: "2rem",
