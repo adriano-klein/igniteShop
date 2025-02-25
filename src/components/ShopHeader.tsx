@@ -4,7 +4,7 @@ import { Header } from "../styles/pages/app";
 import Image from "next/image";
 import logoImg from '../assets/logo.svg';
 import { useShoppingCart } from "use-shopping-cart";
-import { CloseButton, EmptyH4, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
+import { CloseButton, EmptyBag, EmptyH4, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
 import { useState } from "react";
 import { stripe } from "../lib/stripe";
 import Link from "next/link";
@@ -102,9 +102,9 @@ export function ShopHeader() {
                             </p>
 
                             <span>
-                              <Plus onClick={() => incrementItem(item.id)} />
-                              <p> {item.quantity} </p>
                               <Minus onClick={() => decrementItem(item.id)} />
+                              <p> {item.quantity} </p>
+                              <Plus onClick={() => incrementItem(item.id)} />
                             </span>
                           </span>
                           <button onClick={() => removeItem(item.id)}>
@@ -136,10 +136,10 @@ export function ShopHeader() {
                 </FinishPurchaseButton>
               </>
             ) : (
-              <>
+              <EmptyBag>
               <ShoppingBag size={48} />
               <EmptyH4>Sua sacola está vazia</EmptyH4>
-              </>
+              </EmptyBag>
             )}
           </StyledDialogContent>
         </Dialog.Portal>

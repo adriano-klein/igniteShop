@@ -1,6 +1,5 @@
 import { keyframes, styled } from "@stitches/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Link from "next/link";
 
 
 /// Define a animação para o diálogo vindo da direita
@@ -8,7 +7,6 @@ const slideInFromRight = keyframes({
   '0%': { transform: 'translateX(100%)' },
   '100%': { transform: 'translateX(0)' },
 });
-
 
 
 export const StyledDialogContent = styled(Dialog.Content, {
@@ -25,10 +23,6 @@ export const StyledDialogContent = styled(Dialog.Content, {
   animation: `${slideInFromRight} 0.5s ease-out`,
   display: "flex",
   flexDirection: "column",
-
-  h2: {
-    marginBottom: '60%',
-  },
 
   svg: {
     margin: '0 auto',
@@ -167,3 +161,11 @@ export const FinishPurchaseButton = styled("button", {
     background: "$green300",
   }
 })
+
+export const EmptyBag = styled("div", {
+  marginTop: "60%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+})
+  

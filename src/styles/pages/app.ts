@@ -17,7 +17,7 @@ export const Header = styled("header", {
   justifyContent: "space-between",
   position: "relative",
 
-  a: {
+  'a:last-child': {
     backgroundColor: "$gray800",
     color: "$gray300",
     textDecoration: "none",
