@@ -4,7 +4,7 @@ import { Header } from "../styles/pages/app";
 import Image from "next/image";
 import logoImg from '../assets/logo.svg';
 import { useShoppingCart } from "use-shopping-cart";
-import { CloseButton, EmptyBag, EmptyH4, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
+import { ClearCartButton, CloseButton, EmptyBag, EmptyH4, FinishPurchaseButton, ImageContainer, ProductContainer, ProductFooter, ProductsContainer, QuantityInfo, StyledDialogContent, StyledDialogTitle } from "../styles/Components/ShopHeader";
 import { useState } from "react";
 import { stripe } from "../lib/stripe";
 import Link from "next/link";
@@ -134,6 +134,9 @@ export function ShopHeader() {
                 <FinishPurchaseButton onClick={handleBuyProduct}>
                   Finalizar compra
                 </FinishPurchaseButton>
+                <ClearCartButton onClick={clearCart}>
+                  Limpar sacola
+                </ClearCartButton>
               </>
             ) : (
               <EmptyBag>

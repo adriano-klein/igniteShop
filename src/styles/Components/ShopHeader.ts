@@ -1,11 +1,15 @@
 import { keyframes, styled } from "@stitches/react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-
-/// Define a animação para o diálogo vindo da direita
+// Efeitos de entrada e saída do modal de carringo de compras
 const slideInFromRight = keyframes({
   '0%': { transform: 'translateX(100%)' },
   '100%': { transform: 'translateX(0)' },
+});
+
+const slideOutToRight = keyframes({
+  "0%": { transform: "translateX(0)" },
+  "100%": { transform: "translateX(100%)" },
 });
 
 
@@ -20,13 +24,20 @@ export const StyledDialogContent = styled(Dialog.Content, {
   height: "100vh",
   width: "90%",
   maxWidth: "500px",
-  animation: `${slideInFromRight} 0.5s ease-out`,
   display: "flex",
   flexDirection: "column",
 
+  '&[data-state="open"]': {
+    animation: `${slideInFromRight} 0.5s ease-out`,
+  },
+
+  '&[data-state="closed"]': {
+    animation: `${slideOutToRight} 0.5s ease-out`,
+  },
+
   svg: {
-    margin: '0 auto',
-  }
+    margin: "0 auto",
+  },
 });
 
 export const EmptyH4 = styled("h4", {
@@ -169,3 +180,17 @@ export const EmptyBag = styled("div", {
   justifyContent: "center",
 })
   
+export const ClearCartButton = styled("button", {
+  background: "$red500",
+  color: "$white",
+  padding: "0.25rem",
+  borderRadius: "4px",
+  marginTop: "1rem",
+  fontWeight: "bold",
+  border: "none",
+  cursor: "pointer",
+  transition: "background 0.2s",
+  width: "25%",
+  margin: "1rem auto 0",
+  fontSize: "0.8rem",
+});
